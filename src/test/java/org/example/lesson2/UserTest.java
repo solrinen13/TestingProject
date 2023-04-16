@@ -17,40 +17,44 @@ class UserTest {
     static User userEmpty;
 
     @BeforeAll
-    private  static  void initParam(){
+    private static void initParam() {
         System.out.println("Start testing");
         email = "s.n@gmail.com";
         login = "login";
         userEmpty = new User();
-        user = new User(email,login);
+        user = new User(email, login);
     }
 
     @AfterAll
-    private static void shouldDoAfterAll(){
+    private static void shouldDoAfterAll() {
         System.out.println("Finish testing");
     }
+
     @Test
-    void shouldGetEmail(){
+    void shouldGetEmail() {
         assertFalse(user.getEmail().isBlank());
     }
+
     @Test
-    void shouldGetLogin(){
+    void shouldGetLogin() {
         assertFalse(user.getLogin().isBlank());
     }
+
     @Test
-    void shouldCreateEmptyObject(){
+    void shouldCreateEmptyObject() {
         assertTrue(userEmpty.getEmail() == null);
         assertTrue(userEmpty.getLogin() == null);
     }
+
     @Test
-    void checkEmail(){
+    void checkEmail() {
         user.getEmail().contains("@");
         user.getEmail().contains(".");
     }
 
     @Test
-    void checkEqualsEmailAndLogin(){
-        Assertions.assertNotEquals(user.getEmail(),user.getLogin());
+    void checkEqualsEmailAndLogin() {
+        Assertions.assertNotEquals(user.getEmail(), user.getLogin());
 
     }
 
