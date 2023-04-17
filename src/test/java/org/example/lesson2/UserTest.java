@@ -14,13 +14,19 @@ class UserTest {
     private static String email;
     private static String login;
     static User user;
+    private static String invalidLogin;
     static User userEmpty;
+    private static String invalidEmail;
+    private static String invalidEmail2;
 
     @BeforeAll
-    private static void initParam() {
+    private static void initParam() throws Exception {
         System.out.println("Start testing");
         email = "s.n@gmail.com";
+        invalidEmail = "s.ngmail.com";
+        invalidEmail2 = "sn@gmailcom";
         login = "login";
+        invalidLogin = "s.n@gmail.com";
         userEmpty = new User();
         user = new User(email, login);
     }
@@ -31,31 +37,42 @@ class UserTest {
     }
 
     @Test
-    void shouldGetEmail() {
+    void shouldCreateObject() {
         assertFalse(user.getEmail().isBlank());
-    }
-
-    @Test
-    void shouldGetLogin() {
         assertFalse(user.getLogin().isBlank());
+        System.out.println("Создание объекта успешно");
     }
 
     @Test
     void shouldCreateEmptyObject() {
-        assertTrue(userEmpty.getEmail() == null);
-        assertTrue(userEmpty.getLogin() == null);
+        assertNull(userEmpty.getEmail());
+        assertNull(userEmpty.getLogin());
+        System.out.println("Создание пустого объекта успешно");
     }
 
     @Test
     void checkEmail() {
-        user.getEmail().contains("@");
-        user.getEmail().contains(".");
+        Assertions.assertThrows(Exception.class, () -> {
+            new User(invalidEmail, login);
+        });
+        Assertions.assertThrows(Exception.class, () -> {
+            new User(invalidEmail2, login);
+        });
+        Assertions.assertDoesNotThrow(() -> {
+            new User(email, login);
+        });
+        System.out.println("Бросок исключение при написания неверного эмаила работает");
     }
 
     @Test
     void checkEqualsEmailAndLogin() {
-        Assertions.assertNotEquals(user.getEmail(), user.getLogin());
-
+        Assertions.assertThrows(Exception.class, () -> {
+            new User(email, invalidLogin);
+        });
+        Assertions.assertDoesNotThrow(() -> {
+            new User(email, login);
+        });
+        System.out.println("Бросок исключение при совпадения логина работает");
     }
 
 
